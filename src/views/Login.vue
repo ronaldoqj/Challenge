@@ -7,23 +7,18 @@
         :to="{name:'Shifts'}"
         aria-label="Menu"
         label="Access"
+        color="indigo"
       />
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'Login'
 }
 </script>
-
 <style lang="scss">
-@import '@/styles/quasar.variables.scss';
-
 #container__login {
   h1 {
     margin: 0;
@@ -40,10 +35,7 @@ export default {
     margin: 0 auto;
     text-align: center;
 
-    .btn__access {
-      margin-top: 40px;
-    }
+    .btn__access { margin-top: 40px; }
   }
 }
-
 </style>

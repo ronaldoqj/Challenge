@@ -2,36 +2,17 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title>
-          Challenge
-        </q-toolbar-title>
-
+        <q-toolbar-title> Challenge </q-toolbar-title>
         <div>
-          <q-btn
-            flat
-            :to="{name:'Login'}"
-            dense
-            round
-            aria-label="Menu"
-            icon="logout"
-          />
+          <q-btn flat :to="{name:'Login'}" dense round aria-label="Menu" icon="logout" />
         </div>
       </q-toolbar>
     </q-header>
-
     <q-page-container>
-      <!-- <HelloWorld /> -->
-      <!-- <router-view/> -->
       <div class="container__content">
         <div class="left shadow-5">
           <div>
-            <q-select
-              color="indigo"
-              filled
-              v-model="rangeShifts.model"
-              :options="rangeShifts.options"
-              :label="rangeShifts.label"
-            >
+            <q-select color="indigo" filled v-model="rangeShifts.model" :options="rangeShifts.options" :label="rangeShifts.label">
               <template v-slot:prepend>
                 <q-icon name="event" />
               </template>
@@ -40,7 +21,6 @@
           <div class="item__shift"
           v-for="shift in shifts" :key="shift.key" @click="selectedShift(shift)">{{shift.title}}</div>
         </div>
-        <!-- Right -->
         <div class="right">
           <q-card class="my-card text-white shadow-5" v-if="details.title !== ''">
               <q-card-section style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)">
@@ -109,18 +89,12 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import { onMounted, toRefs, watch, reactive } from 'vue'
 import { date } from 'quasar'
 
 export default {
   name: 'Home',
-  components: {
-    // HelloWorld
-  },
   setup () {
-    /** To use i18n on setup, not necessary on data(not composition), in data only need us $t to access i18n */
     const state = reactive({
       rangeShifts: {
         label: 'Select the day range',
@@ -137,11 +111,9 @@ export default {
         hobbies: '',
         shifts: 0,
         description: ''
-      }
+      },
+      examplesNames: []
     })
-    /**
-     * Methods
-     */
     const generateStartShifts = () => {
       const currentDate = Date.now()
       const currentYear = date.formatDate(currentDate, 'YYYY')
@@ -155,8 +127,8 @@ export default {
         date: currentDate,
         title: date.formatDate(currentDate, 'YYYY-MM-DD') + ' 23:00:00 - late',
         content: {
-          name: 'Name of person',
-          age: 'birthday',
+          name: getRandomName(),
+          age: getRandomAge(),
           office: 'job',
           hiringDate: getHiringDate(),
           hobbies: 'something you like to do',
@@ -167,8 +139,8 @@ export default {
         date: currentDate,
         title: date.formatDate(currentDate, 'YYYY-MM-DD') + ' 07:00:00 - night',
         content: {
-          name: 'Name of person',
-          age: 'birthday',
+          name: getRandomName(),
+          age: getRandomAge(),
           office: 'job',
           hiringDate: getHiringDate(),
           hobbies: 'something you like to do',
@@ -178,16 +150,13 @@ export default {
       if (date.isBetweenDates(currentDate, dateEarlyStart, dateEarlyEnd)) {
         state.shifts.push(newShiftLate)
         state.shifts.push(newShiftNight)
-        console.log(state.shifts)
       }
       if (date.isBetweenDates(currentDate, dateLateStart, dateLateEnd)) {
         state.shifts.push(newShiftNight)
       }
     }
-
     const generateNextShifts = () => {
       const newDate = Date.now()
-      // const formattedDate = date.formatDate(newDate, 'YYYY-MM-DD HH:mm:ss')
       let clonedDate = date.clone(newDate)
       for (let i = 1; i <= state.rangeShifts.model; i++) {
         clonedDate = date.addToDate(clonedDate, { days: i })
@@ -195,8 +164,8 @@ export default {
           date: clonedDate,
           title: date.formatDate(clonedDate, 'YYYY-MM-DD') + ' 15:00:00 - early',
           content: {
-            name: 'Name of person',
-            age: 'birthday',
+            name: getRandomName(),
+            age: getRandomAge(),
             office: 'job',
             hiringDate: getHiringDate(),
             hobbies: 'something you like to do',
@@ -207,9 +176,9 @@ export default {
           date: clonedDate,
           title: date.formatDate(clonedDate, 'YYYY-MM-DD') + ' 23:00:00 - late',
           content: {
-            name: 'Name of person',
+            name: getRandomName(),
             office: 'job',
-            age: 'birthday',
+            age: getRandomAge(),
             hiringDate: getHiringDate(),
             hobbies: 'something you like to do',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'
@@ -219,8 +188,8 @@ export default {
           date: clonedDate,
           title: date.formatDate(clonedDate, 'YYYY-MM-DD') + ' 07:00:00 - night',
           content: {
-            name: 'Name of person',
-            age: 'birthday',
+            name: getRandomName(),
+            age: getRandomAge(),
             office: 'job',
             hiringDate: getHiringDate(),
             hobbies: 'something you like to do',
@@ -232,7 +201,6 @@ export default {
         state.shifts.push(newShiftNight)
       }
     }
-
     const selectedShift = (shift) => {
       state.details.title = shift.title
       state.details.name = shift.content.name
@@ -242,16 +210,20 @@ export default {
       state.details.hobbies = shift.content.hobbies
       state.details.description = shift.content.description
     }
-
     const getLeftColumn = () => {
       generateStartShifts()
       generateNextShifts()
     }
-
+    const getRandomAge = () => {
+      return Math.floor(Math.random() * (38 - 18)) + 1
+    }
+    const getRandomName = () => {
+      const aNames = ['Ryan', 'Jacob', 'Gary', 'Nicholas', 'Russell', 'Jonathan', 'Stephen', 'Larry', 'Justin', 'Scott', 'Brandon', 'Benjamin', 'Samuel', 'Gregory', 'Frank', 'Alexander', 'Raymond', 'Patrick', 'Jack', 'Philip']
+      return aNames[Math.floor(Math.random() * (19 - 0)) + 1]
+    }
     const getHiringDate = () => {
       return `${Math.floor(Math.random() * (28 - 1)) + 1}-${Math.floor(Math.random() * (12 - 1)) + 1}${Math.floor(Math.random() * (1984 - 2000)) + 1}`
     }
-
     const init = () => {
       state.shifts = []
       getLeftColumn()
@@ -285,9 +257,6 @@ export default {
       cursor: pointer;
       &:hover { color: indigo; }
     }
-  }
-  .right {
-    // to do
   }
 }
 </style>
