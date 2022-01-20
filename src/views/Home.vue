@@ -1,16 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy">
+    <q-header elevated>
       <q-toolbar>
-        <!-- <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-          icon="o_menu"
-        /> -->
-
         <q-toolbar-title>
           Challenge
         </q-toolbar-title>
@@ -28,40 +19,11 @@
       </q-toolbar>
     </q-header>
 
-    <!-- <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-grey-2"
-    >
-      <q-list>
-        <q-item-label header>Shifts</q-item-label>
-        <q-item :to="{name: 'Home'}">
-          <q-item-section avatar>
-            <q-icon name="o_school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Home</q-item-label>
-            <q-item-label caption>description</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item :to="{name: 'About'}">
-          <q-item-section avatar>
-            <q-icon name="o_code" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>About</q-item-label>
-            <q-item-label caption>description</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer> -->
-
     <q-page-container>
       <!-- <HelloWorld /> -->
       <!-- <router-view/> -->
       <div class="container__content">
-        <div class="left">
+        <div class="left shadow-5">
           <div>
             <q-select
               color="indigo"
@@ -78,23 +40,78 @@
           <div class="item__shift"
           v-for="shift in shifts" :key="shift.key" @click="selectedShift(shift)">{{shift.title}}</div>
         </div>
-        <div class="right">Right</div>
+        <!-- Right -->
+        <div class="right">
+          <q-card class="my-card text-white shadow-5" v-if="details.title !== ''">
+              <q-card-section style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)">
+                <div class="text-h6">{{ details.title }}</div>
+                <div class="text-subtitle2">{{ details.name }}</div>
+              </q-card-section>
+
+              <q-card-section>
+                <div class="q-pa-md" style="max-width: 350px">
+                  <q-list>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label style="color:black">Office</q-item-label>
+                        <q-item-label caption lines="2">{{ details.office }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top><q-icon name="star" color="indigo" /></q-item-section>
+                    </q-item>
+                    <q-separator spaced inset />
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label style="color:black">Age</q-item-label>
+                        <q-item-label caption lines="2">{{ details.age }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top><q-icon name="star" color="indigo" /></q-item-section>
+                    </q-item>
+                    <q-separator spaced inset />
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label style="color:black">Hiring Date</q-item-label>
+                        <q-item-label caption lines="2">{{ details.hiringDate }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top><q-icon name="star" color="indigo" /></q-item-section>
+                    </q-item>
+                    <q-separator spaced inset />
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label style="color:black">Hobbies</q-item-label>
+                        <q-item-label caption lines="2">{{ details.hobbies }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top><q-icon name="star" color="indigo" /></q-item-section>
+                    </q-item>
+                    <q-separator spaced inset />
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label style="color:black">Description</q-item-label>
+                        <q-item-label caption lines="2">{{ details.description }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top><q-icon name="star" color="indigo" /></q-item-section>
+                    </q-item>
+                    <q-separator spaced inset />
+                  </q-list>
+                </div>
+              </q-card-section>
+          </q-card>
+          <div v-else>
+            <q-card class="my-card">
+              <q-card-section>
+                Please select one of the shifts on the left
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
       </div>
     </q-page-container>
   </q-layout>
 </template>
 
-<!-- template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template -->
-
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { ref, onMounted, toRefs, computed, watch, reactive } from 'vue'
+import { onMounted, toRefs, watch, reactive } from 'vue'
 import { date } from 'quasar'
 
 export default {
@@ -110,34 +127,21 @@ export default {
         model: 2,
         options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       },
-      shifts: [
-        // {
-        //   id: '1',
-        //   title: '2022-01-17 15:00:00 - early',
-        //   content: {}
-        // },
-        // {
-        //   id: '2',
-        //   title: '2022-01-17 21:00:00 - late',
-        //   content: {}
-        // },
-        // {
-        //   id: '3',
-        //   title: '2022-01-17 21:00:00 - night',
-        //   content: {}
-        // }
-      ]
-    })
-    /**
-     * Computeds
-     */
-    const exampleComputed = computed(() => {
-      return true
+      shifts: [],
+      details: {
+        title: '',
+        name: '',
+        age: '',
+        office: '',
+        hiringDate: '',
+        hobbies: '',
+        shifts: 0,
+        description: ''
+      }
     })
     /**
      * Methods
      */
-
     const generateStartShifts = () => {
       const currentDate = Date.now()
       const currentYear = date.formatDate(currentDate, 'YYYY')
@@ -147,21 +151,30 @@ export default {
       const dateEarlyEnd = date.buildDate({ year: currentYear, month: currentMonth, date: currentDay, hours: 14, minutes: 0, seconds: 0 })
       const dateLateStart = date.buildDate({ year: currentYear, month: currentMonth, date: currentDay, hours: 15, minutes: 0, seconds: 0 })
       const dateLateEnd = date.buildDate({ year: currentYear, month: currentMonth, date: currentDay, hours: 22, minutes: 0, seconds: 0 })
-      // const dateNightStart = date.buildDate({ year: currentYear, month: currentMonth, date: currentDay, hours: 23, minutes: 0, seconds: 0 })
-      // const dateNightEnd = date.buildDate({ year: currentYear, month: currentMonth, date: currentDay, hours: 6, minutes: 0, seconds: 0 })
-      console.log('dateEarlyStart', dateEarlyStart)
-
       const newShiftLate = {
         date: currentDate,
         title: date.formatDate(currentDate, 'YYYY-MM-DD') + ' 23:00:00 - late',
-        content: {}
+        content: {
+          name: 'Name of person',
+          age: 'birthday',
+          office: 'job',
+          hiringDate: getHiringDate(),
+          hobbies: 'something you like to do',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'
+        }
       }
       const newShiftNight = {
         date: currentDate,
         title: date.formatDate(currentDate, 'YYYY-MM-DD') + ' 07:00:00 - night',
-        content: {}
+        content: {
+          name: 'Name of person',
+          age: 'birthday',
+          office: 'job',
+          hiringDate: getHiringDate(),
+          hobbies: 'something you like to do',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'
+        }
       }
-
       if (date.isBetweenDates(currentDate, dateEarlyStart, dateEarlyEnd)) {
         state.shifts.push(newShiftLate)
         state.shifts.push(newShiftNight)
@@ -185,7 +198,7 @@ export default {
             name: 'Name of person',
             age: 'birthday',
             office: 'job',
-            hiringDate: '01-01-2022',
+            hiringDate: getHiringDate(),
             hobbies: 'something you like to do',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'
           }
@@ -195,9 +208,9 @@ export default {
           title: date.formatDate(clonedDate, 'YYYY-MM-DD') + ' 23:00:00 - late',
           content: {
             name: 'Name of person',
-            age: 'birthday',
             office: 'job',
-            hiringDate: '01-01-2022',
+            age: 'birthday',
+            hiringDate: getHiringDate(),
             hobbies: 'something you like to do',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'
           }
@@ -209,7 +222,7 @@ export default {
             name: 'Name of person',
             age: 'birthday',
             office: 'job',
-            hiringDate: '01-01-2022',
+            hiringDate: getHiringDate(),
             hobbies: 'something you like to do',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.'
           }
@@ -221,20 +234,26 @@ export default {
     }
 
     const selectedShift = (shift) => {
-      console.log('shift clicked', shift)
+      state.details.title = shift.title
+      state.details.name = shift.content.name
+      state.details.office = shift.content.office
+      state.details.age = shift.content.age
+      state.details.hiringDate = shift.content.hiringDate
+      state.details.hobbies = shift.content.hobbies
+      state.details.description = shift.content.description
     }
 
     const getLeftColumn = () => {
-      // const timeStamp = Date.now()
-      // const formattedDate = date.formatDate(timeStamp, 'YYYY-MM-DD HH:mm:ss')
-      // console.log('Date-Now:', formattedDate)
       generateStartShifts()
       generateNextShifts()
     }
 
+    const getHiringDate = () => {
+      return `${Math.floor(Math.random() * (28 - 1)) + 1}-${Math.floor(Math.random() * (12 - 1)) + 1}${Math.floor(Math.random() * (1984 - 2000)) + 1}`
+    }
+
     const init = () => {
       state.shifts = []
-      console.log('init')
       getLeftColumn()
       return true
     }
@@ -247,35 +266,28 @@ export default {
     onMounted(() => {
       init()
     })
-    return { ...toRefs(state), init, selectedShift, exampleComputed, getLeftColumn, leftDrawerOpen: ref(false) }
+    return { ...toRefs(state), init, selectedShift, getLeftColumn }
   }
 }
 </script>
-
 <style lang="scss">
-@import '@/styles/quasar.variables.scss';
-
 .container__content {
   width: 100%;
   display: flex;
-  &>div {
-    padding: 20px;
-  }
+  margin-top: 30px;
+  padding: 20px;
+  &>div { padding: 30px; }
   .left {
-    border: solid 1px red;
     .item__shift {
       font-size: 1.2em;
       margin: 10px 0;
       transition: ease 0.4ms;
       cursor: pointer;
-      &:hover {
-        color: indigo;
-      }
+      &:hover { color: indigo; }
     }
   }
   .right {
-    border: solid 1px greenyellow;
+    // to do
   }
 }
-
 </style>
